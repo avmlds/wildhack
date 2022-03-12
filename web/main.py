@@ -25,51 +25,51 @@ coords.columns = ["lat", "lon"]
 image = Image.open("../train1/G0015158.JPG")
 image = image.rotate(180)
 
-st.sidebar.title("""Выбор данных для анализа""")
+st.sidebar.title("""Choose data for analysis""")
 
 
-camera = st.sidebar.selectbox("Точка наблюдения", ["Курильское озеро", "р. Быстрая", "р. Жупанова", "р. Колпакова", "р. Опала", "о. Калагирь", "о. Дальнее", "о. Кроноцкое", "о. Начикинское", "о. Налычево", "р. Авача", "р. Хламовитка", "р. Широкая", "Авачинская бухта"])
-size = st.sidebar.selectbox("Масштаб графика", ["1с", "5с", "30с", "1мин", "5мин"])
-data_sidebar = st.sidebar.date_input("Период наблюдений", value=d, min_value=df.reset_index()["date"].min(),  max_value=df.reset_index()["date"].max() + timedelta(days=1))
+camera = st.sidebar.selectbox("Observation point", ["Angola", "Zambia", "Tanzania", "Uganda", "Zimbabwe", "Botswana", "Mozambique", "Namibia", "Lesotho", "South Africa", "Cameroon", "Ethiopia", "Mauritius"])
+size = st.sidebar.selectbox("Plot scale", ["1sec", "5sec", "30sec", "1min", "5min"])
+data_sidebar = st.sidebar.date_input("Observation period", value=d, min_value=df.reset_index()["date"].min(),  max_value=df.reset_index()["date"].max() + timedelta(days=1))
 st.sidebar.write("---")
-expander1 = st.sidebar.expander("Добавить данные вручную")
-expander1.date_input("Дата наблюдений", value=d)
-expander1.number_input("Число рыб")
-expander1.text_input("Порода рыб")
-expander1.button("Подтвердить", key="12")
-expander4 = st.sidebar.expander("Загрузить таблицу")
+expander1 = st.sidebar.expander("Manual adding")
+expander1.date_input("Date of observation", value=d)
+expander1.number_input("Animal counting")
+expander1.text_input("Animal")
+expander1.button("Confirm", key="12")
+expander4 = st.sidebar.expander("Load data")
 
 if camera:
     st.subheader(camera)
 
-expander2 = st.expander("Результаты подсчетов")
+expander2 = st.expander("Results")
 if size:
     expander2.line_chart(data[size], use_container_width=True)
 expander2.write("---")
-expander2.header("Дополнительная аналитика")
+expander2.header("Additional info")
 if size:
-    mean_today_metric = expander2.metric(label="Рыб в среднем за сегодня, шт.",
+    mean_today_metric = expander2.metric(label="Mean animal num",
         value=round(df.reset_index().loc[df.reset_index()["date"].dt.date == data_sidebar].groupby("filename")["quantity"].max().mean(), 2))
-expander2.metric("Суммарно за весь период ", str(sum_metric), 20)
-expander2.metric("Среднее за весь период", round(mean_metric, 2), 0.2)
+expander2.metric("Total for the entire period ", str(sum_metric), 20)
+expander2.metric("Mean for the entire period", round(mean_metric, 2), 0.2)
 
-tables = expander4.file_uploader("Загрузить XLS/CSV таблицу", type=None, accept_multiple_files=False)
-expander4.button("Отправить", key="1231")
+tables = expander4.file_uploader("Load XLS/CSV file", type=None, accept_multiple_files=False)
+expander4.button("Send", key="1231")
 
-expander3 = st.expander("Распознать фото/видео")
-photos = expander3.file_uploader("Загрузить фотографии", type=None, accept_multiple_files=True)
-videos = expander3.file_uploader("Загрузить видео", type=None, accept_multiple_files=False)
-expander3.button("Отправить", key="12312")
+expander3 = st.expander("Photo analysis")
+photos = expander3.file_uploader("Load photos", type=None, accept_multiple_files=True)
+videos = expander3.file_uploader("Load video", type=None, accept_multiple_files=False)
+expander3.button("Send", key="12312")
 
-expander00 = st.expander("Режим онлайн")
-expander00.image(image, caption="Смотреть трансляцию (экспериментально)", channels="RGB", output_format="auto")
-expander00.button("Увеличить", key="113131ds2312")
-expander00.date_input("Дата наблюдений", value=d, key="wksjfaksjdnf")
-expander00.number_input("Число рыб", key="wksjfaksjdasdfasdfasdf")
-expander00.button("Подтвердить и завершить просмотр", key="113132")
+expander00 = st.expander("Live")
+expander00.image(image, caption="Watch stream (beta)", channels="RGB", output_format="auto")
+expander00.button("Zoom", key="113131ds2312")
+expander00.date_input("Date of observation", value=d, key="wksjfaksjdnf")
+expander00.number_input(" Number of animals", key="wksjfaksjdasdfasdfasdf")
+expander00.button("Confirm and finish", key="113132")
 
 
-expander = st.sidebar.expander("Показать на карте")
+expander = st.sidebar.expander("Look on map")
 expander.map(coords, zoom=8)
 
 #st.metric("Рыбы зафиксировано сегодня", sum_metric, 2)
