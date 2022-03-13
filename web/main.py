@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from PIL import Image
+# import cv2
 from datetime import datetime, timedelta
 
 d = datetime.strptime("2021-08-11", "%Y-%m-%d")
@@ -22,8 +23,9 @@ mean_metric = df.groupby("filename")["quantity"].max().mean()
 coords = df.loc[(~df["N"].isnull()) & (~df["E"].isnull()), ["N", "E"]]
 coords.columns = ["lat", "lon"]
 
-image = Image.open("G0015158.JPG")
+image = Image.open("web/G0015158.JPG")
 image = image.rotate(180)
+# image = cv2.imread("G0015158.JPG")
 
 st.sidebar.title("""Choose data for analysis""")
 
