@@ -22,7 +22,7 @@ mean_metric = df.groupby("filename")["quantity"].max().mean()
 coords = df.loc[(~df["N"].isnull()) & (~df["E"].isnull()), ["N", "E"]]
 coords.columns = ["lat", "lon"]
 
-image = Image.open("../train1/G0015158.JPG")
+image = Image.open("G0015158.JPG")
 image = image.rotate(180)
 
 st.sidebar.title("""Choose data for analysis""")
