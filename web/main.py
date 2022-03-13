@@ -10,11 +10,11 @@ df["date"] = pd.to_datetime(df["date"])
 df = df.set_index("date")
 
 data = {
-    "1с": df["quantity"].resample("s").sum(),
-    "5с": df["quantity"].resample("5s").sum(),
-    "30с": df["quantity"].resample("30s").sum(),
-    "1мин": df["quantity"].resample("60s").sum(),
-    "5мин": df["quantity"].resample("300s").sum()
+    "1sec": df["quantity"].resample("s").sum(),
+    "5sec": df["quantity"].resample("5s").sum(),
+    "30sec": df["quantity"].resample("30s").sum(),
+    "1min": df["quantity"].resample("60s").sum(),
+    "5min": df["quantity"].resample("300s").sum()
 }
 
 sum_metric = df.groupby("filename")["quantity"].max().sum()
